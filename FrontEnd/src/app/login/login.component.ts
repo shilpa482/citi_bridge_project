@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthServiceService } from '../auth-service.service';
+import { User } from '../user';
 
 
 @Component({
@@ -9,6 +10,7 @@ import { AuthServiceService } from '../auth-service.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  user:User=new User();
 
   formGroup: FormGroup;
 
@@ -24,15 +26,24 @@ export class LoginComponent implements OnInit {
       password: new FormControl('',[Validators.required])
     });
   }
+   checkForm(): number{
+    if(this.user.password!=""&&this.user.userName!="")
+    {
+      return 1;
+    }
+    return 0;
+  }
     loginProcess() {
-      if(this.formGroup.valid) {
-        this.authService.logIn(this.formGroup.value).subscribe(res => {
-          if(res.success) {
+      if(this.checkForm()) {
+        console.log(JSON.stringify(this.user));
+        this.authService.logIn(this.user).subscribe(res => {
+          if(res) {
             console.log(res);
-            alert(res.message);
+            alert("login successful");
           }
           else {
-            alert(res.message);
+            console.log(res);
+            alert("invalid");
           }
         });
       }
@@ -45,7 +56,6 @@ export class LoginComponent implements OnInit {
   //   console.log("login initiated!");
   // }
 
-// function loginProcess() {
-//   throw new Error('Function not implemented.');
-// }
-
+/*function loginProcess() {
+  throw new Error('Function not implemented.');
+}*/
