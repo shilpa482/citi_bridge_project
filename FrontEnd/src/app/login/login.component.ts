@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
     loginProcess() {
       if(this.checkForm()) {
         console.log(JSON.stringify(this.user));
-        this.authService.logIn(this.user).subscribe(res => {
+        this.authService.logIn(this.user).subscribe((res: any) => {
           if(res) {
             console.log(res);
             alert("login successful");
